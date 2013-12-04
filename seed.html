@@ -1,11 +1,21 @@
 <head>
-  <title>seed</title>
+  <title>Logos</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-	<h1>Logos</h1>
+	<h1>
+		<span class="label label-primary">
+			Logos
+		</span>
+	</h1>
+	<div style="float: right; margin-right:20px;">
+		{{loginButtons align="right"}}
+	</div>
 	
-	{{> selector}}
+	{{#if currentUser}}
+		{{> selector}}
+	{{/if}}
 </body>
 
 <template name="selector">
@@ -13,26 +23,48 @@
 		<select id="book_list" name="book" size="7">
 			<option value="">Book</option>
 			{{#each books}}
-				<option value="{{val}}">{{text}}</option>
+				<option value="{{val}}">{{name}}</option>
 			{{/each}}	
 		</select>
-		
+
 		<select id="chapter_list" size="7">
 			{{#each chapters}}
 				<option value="{{this}}">{{this}}</option>
 			{{/each}}
 		</select>
-		
+
 		<select id="verse_list" size="7">
 			{{#each verses}}
 				<option value="{{this}}">{{this}}</option>
 			{{/each}}
 		</select>
 	</form>
-	
+	<hr>
 	{{> verse}}
 </template>
 
 <template name="verse">
-	{{current_book}} {{current_chapter}} {{current_verse}}
+	<h3>
+		<span class="label label-info">
+			{{book_name}} {{current_chapter}}:{{current_verse}}
+		</span>
+	</h3>
+	{{verse_mode}}
+	{{#if testing_verse}}
+		<br>
+		<button id="show_verse" type="button">Show Verse</button>
+	{{else}}
+		{{#if reviewing_verse}}
+			<div class="jumbotron">{{verse_text}}</div>
+			<br>
+			<button id="edit_verse" type="button">Edit Verse</button>
+		{{else}}
+			{{#if editing_verse}}
+				<br>
+				<textarea class="form-control" id="verse_editor" rows="3">{{verse_text}}</textarea>
+				<br>
+				<button id="save_verse" type="button">Save Verse</button>
+			{{/if}}
+		{{/if}}
+	{{/if}}
 </template>

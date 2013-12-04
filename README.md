@@ -1,10 +1,8 @@
 Logos
 =====
-
-Scripture-Memory App
-GPL v3 Licensed
-Built on Meteor.js
-
+	Scripture-Memory App
+	GPL v3 Licensed
+	Built on Meteor.js
 
 Usage
 =====

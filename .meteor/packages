@@ -9,6 +9,6 @@ insecure
 preserve-inputs
 accounts-base
 accounts-password
-accounts-ui
 stylus
 madewith
+accounts-ui

@@ -1,0 +1,1 @@
+verses = new Meteor.Collection("verses");
