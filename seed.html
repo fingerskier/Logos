@@ -1,0 +1,26 @@
+<head>
+  <title>seed</title>
+</head>
+
+<body>
+	<h1>Logos</h1>
+	
+	{{> selector}}
+</body>
+
+<template name="selector">
+	<form id="selector_form">
+		<select id="book_list" name="book">
+			<option value="">Book</option>
+			{{#each books}}
+				<option value="{{val}}">{{text}}</option>
+			{{/each}}	
+		</select>
+	</form>
+	
+	{{> verse}}
+</template>
+
+<template name="verse">
+	{{current_book}}
+</template>
