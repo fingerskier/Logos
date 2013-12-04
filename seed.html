@@ -10,11 +10,23 @@
 
 <template name="selector">
 	<form id="selector_form">
-		<select id="book_list" name="book">
+		<select id="book_list" name="book" size="7">
 			<option value="">Book</option>
 			{{#each books}}
 				<option value="{{val}}">{{text}}</option>
 			{{/each}}	
+		</select>
+		
+		<select id="chapter_list" size="7">
+			{{#each chapters}}
+				<option value="{{this}}">{{this}}</option>
+			{{/each}}
+		</select>
+		
+		<select id="verse_list" size="7">
+			{{#each verses}}
+				<option value="{{this}}">{{this}}</option>
+			{{/each}}
 		</select>
 	</form>
 	
@@ -22,5 +34,5 @@
 </template>
 
 <template name="verse">
-	{{current_book}}
+	{{current_book}} {{current_chapter}} {{current_verse}}
 </template>
