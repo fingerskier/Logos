@@ -4,6 +4,8 @@ Meteor.startup(function() {
   });
 });
 
+Meteor.subscribe("Verses");
+
 Accounts.ui.config({
   passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
 });

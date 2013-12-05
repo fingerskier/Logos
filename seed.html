@@ -19,25 +19,29 @@
 </body>
 
 <template name="selector">
-	<form id="selector_form">
-		<select id="book_list" name="book" size="7">
+	<form class="form-inline" id="selector_form" role="form">
+		<div class="form-group">
+		<select id="book_list" name="book">
 			<option value="">Book</option>
 			{{#each books}}
 				<option value="{{val}}">{{name}}</option>
 			{{/each}}	
 		</select>
 
-		<select id="chapter_list" size="7">
+		<select id="chapter_list">
+			<option value="">Chapter</option>
 			{{#each chapters}}
 				<option value="{{this}}">{{this}}</option>
 			{{/each}}
 		</select>
 
-		<select id="verse_list" size="7">
+		<select id="verse_list">
+			<option value="">Verse</option>
 			{{#each verses}}
 				<option value="{{this}}">{{this}}</option>
 			{{/each}}
 		</select>
+		</div>
 	</form>
 	<hr>
 	{{> verse}}
@@ -61,7 +65,9 @@
 		{{else}}
 			{{#if editing_verse}}
 				<br>
-				<textarea class="form-control" id="verse_editor" rows="3">{{verse_text}}</textarea>
+				<form>
+					<textarea class="form-control" id="verse_editor" rows="3">{{verse_text}}</textarea>
+				</form>
 				<br>
 				<button id="save_verse" type="button">Save Verse</button>
 			{{/if}}
