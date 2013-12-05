@@ -8,8 +8,6 @@ Template.verse.events({
       verse: Session.get("current_verse")
 		});
 		
-		console.log(the_verse);
-		
 		if (the_verse) {
 	  	Session.set("verse_id", the_verse._id);
 	  	Session.set("verse_text", the_verse.text);	  	
@@ -22,12 +20,15 @@ Template.verse.events({
   },
 	"click #edit_verse": function() {
 		Session.set("verse_mode", "edit");
+		$("#book_list").focus();
+	},
+	"click #hide_verse": function() {
+		Session.set("verse_mode", "test");
+		$("#book_list").focus();
 	},
 	"click #save_verse": function() {
 		var the_id = Session.get("verse_id");
 		Session.set("verse_text", $("#verse_editor").val());
-		
-		console.log(the_id);
 		
 		if (the_id) {
 			verses.update(the_id, {
@@ -42,12 +43,11 @@ Template.verse.events({
 				owner: Meteor.userId()
 			};
 			
-			console.log(new_rec);
-			
 			the_id = verses.insert(new_rec);
 			Session.set("verse_id", the_id);
 		}
 		Session.set("verse_mode", "test");
+		$("#book_list").focus();
 	}
 });
 

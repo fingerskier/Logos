@@ -4,9 +4,6 @@ Logos
 	GPL v3 Licensed
 	Built on Meteor.js
 
-Usage
-=====
-	
 Packages
 ========
 	* Bootstrap (manually added, not really a package)
