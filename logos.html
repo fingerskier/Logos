@@ -1,16 +1,33 @@
 <head>
   <title>Logos</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- logos.meteor.com -->
+	<ins class="adsbygoogle"
+	     style="display:inline-block;width:728px;height:90px"
+	     data-ad-client="ca-pub-7293342172354949"
+	     data-ad-slot="3506948065"></ins>
+	<script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
 </head>
 
 <body>
-	<h1>
-		<span class="label label-primary">
-			Logos
-		</span>
-	</h1>
-	<div style="float: right; margin-right:20px;">
-		{{loginButtons align="right"}}
+	<div class="row" id="accountContainer">
+		<div class="pull-right">
+			{{loginButtons align="right"}}
+		</div>
+	</div>
+	
+	<div class="jumbotron row">
+		<div class="col-xs-2">
+			<h1 class="label label-primary">
+				Logos
+			</h1>
+		</div>
+		<div class="">
+			<p class="pull-right col-xs-7">A free web-app to save, test and review your memory verses...anywhere, anytime.</p>
+		</div>
 	</div>
 	
 	{{#if currentUser}}
@@ -21,26 +38,30 @@
 <template name="selector">
 	<form class="form-inline" id="selector_form" role="form">
 		<div class="form-group">
-		<select id="book_list" name="book">
-			<option value="">Book</option>
-			{{#each books}}
-				<option value="{{val}}">{{name}}</option>
-			{{/each}}	
-		</select>
+			<select class="form-control" id="book_list" name="book">
+				<option value="">Book</option>
+				{{#each books}}
+					<option value="{{val}}">{{name}}</option>
+				{{/each}}	
+			</select>
+		</div>
 
-		<select id="chapter_list">
-			<option value="">Chapter</option>
-			{{#each chapters}}
-				<option value="{{this}}">{{this}}</option>
-			{{/each}}
-		</select>
+		<div class="form-group">
+			<select class="form-control" id="chapter_list">
+				<option value="">Chapter</option>
+				{{#each chapters}}
+					<option value="{{this}}">{{this}}</option>
+				{{/each}}
+			</select>
+		</div>
 
-		<select id="verse_list">
-			<option value="">Verse</option>
-			{{#each verses}}
-				<option value="{{this}}">{{this}}</option>
-			{{/each}}
-		</select>
+		<div class="form-group">
+			<select class="form-control" id="verse_list">
+				<option value="">Verse</option>
+				{{#each verses}}
+					<option value="{{this}}">{{this}}</option>
+				{{/each}}
+			</select>
 		</div>
 	</form>
 	<hr>
@@ -50,29 +71,39 @@
 <template name="verse">
 	<h3>
 		<span class="label label-info">
-			{{book_name}} {{current_chapter}}:{{current_verse}}
+			{{book_name}} {{current_chapter}}
+			{{#if current_verse}}
+				: {{current_verse}}
+			{{/if}}
 		</span>
 	</h3>
-	{{verse_mode}}
+	
 	{{#if testing_verse}}
-		<br>
-		<button id="show_verse" type="button">Show Verse</button>
+		<span class="alert alert-success">testing...</span>
 	{{else}}
 		{{#if reviewing_verse}}
 			<div class="jumbotron">{{verse_text}}</div>
-			<br>
-			<button id="hide_verse" type="button">Hide Verse</button>
-			<br>
-			<button id="edit_verse" type="button">Edit Verse</button>
 		{{else}}
 			{{#if editing_verse}}
-				<br>
 				<form>
 					<textarea class="form-control" id="verse_editor" rows="3">{{verse_text}}</textarea>
 				</form>
-				<br>
-				<button id="save_verse" type="button">Save Verse</button>
 			{{/if}}
 		{{/if}}
 	{{/if}}
+	
+	<nav class="navbar navbar-fixed-bottom" role="navigation">
+		{{#if testing_verse}}
+			<button class="btn navbar-btn btn-warning navbar-right" id="show_verse" type="button">Show Verse</button>
+		{{else}}
+			{{#if reviewing_verse}}
+				<button class="btn navbar-btn btn-warning" id="edit_verse" type="button">Edit Verse</button>
+				<button class="btn navbar-btn btn-primary navbar-right" id="hide_verse" type="button">Hide Verse</button>
+			{{else}}
+				{{#if editing_verse}}
+					<button class="btn navbar-btn btn-success navbar-right" id="save_verse" type="button">Save Verse</button>
+				{{/if}}
+			{{/if}}
+		{{/if}}
+	</nav>
 </template>

@@ -1,5 +1,12 @@
 Session.set("verse_text", "");
 
+Meteor.startup(function() {
+	$(document).ready(function() {
+		Meteor.flush();
+		$("#book_list").focus();
+	});
+});
+
 Template.verse.events({
 	"click #show_verse": function() {
 		var the_verse = verses.findOne({
@@ -20,7 +27,8 @@ Template.verse.events({
   },
 	"click #edit_verse": function() {
 		Session.set("verse_mode", "edit");
-		$("#book_list").focus();
+		Meteor.flush();
+		$("#verse_editor").focus();
 	},
 	"click #hide_verse": function() {
 		Session.set("verse_mode", "test");
