@@ -1,0 +1,107 @@
+<head>
+  <title>anamnesis.me</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- logos.meteor.com -->
+	<ins class="adsbygoogle"
+	     style="display:inline-block;width:728px;height:90px"
+	     data-ad-client="ca-pub-7293342172354949"
+	     data-ad-slot="3506948065"></ins>
+	<script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+</head>
+
+<body>
+	{{> home}}
+</body>
+
+<template name="home">
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h1 class="panel-title">
+				<a href="#" id="def_toggle">anamnesis.me</a>
+			</h1>
+			<div class="alert alert-success" id="definition">reminiscence and/or memorial sacrifice; a recollection of higher things;</div>
+		</div>
+		
+		<div class="panel-body well well-sm">
+				<p class="pull-left">A free web-app to memorize and recollect Bible verses.</p>
+				<p class="pull-right">{{loginButtons align="right"}}</p>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		{{#if currentUser}}
+			{{> selector}}
+		{{/if}}
+	</div>
+</template>
+
+<template name="selector">
+	<div class="row-fluid">
+		<form class="form-inline" id="selector_form" role="form">
+			<div class="col-xs-6 form-group">
+				<select class="form-control" id="book_list" name="book">
+					<option value="">Book</option>
+					{{#each books}}
+						<option value="{{val}}">{{name}}</option>
+					{{/each}}	
+				</select>
+			</div>
+
+			<div class="col-xs-3 form-group">
+				<select class="form-control" id="chapter_list">
+					<option value="">Chapter</option>
+					{{#each chapters}}
+						<option value="{{this}}">{{this}}</option>
+					{{/each}}
+				</select>
+			</div>
+
+			<div class="col-xs-3 form-group">
+				<select class="form-control" id="verse_list">
+					<option value="">Verse</option>
+					{{#each verses}}
+						<option value="{{this}}">{{this}}</option>
+					{{/each}}
+				</select>
+			</div>
+		</form>
+	</div>
+
+	{{> verse}}
+</template>
+
+<template name="verse">
+	<div class="well well-lg">
+		{{#if testing_verse}}
+			<span class="alert alert-success">testing...</span>
+		{{else}}
+			{{#if reviewing_verse}}
+				{{verse_text}}
+			{{else}}
+				{{#if editing_verse}}
+					<form>
+						<textarea class="form-control" id="verse_editor" rows="3">{{verse_text}}</textarea>
+					</form>
+				{{/if}}
+			{{/if}}
+		{{/if}}
+	</div>
+	
+	<nav class="navbar navbar-fixed-bottom" role="navigation">
+		{{#if testing_verse}}
+			<button class="btn navbar-btn btn-warning navbar-right" id="show_verse" type="button">Show Verse</button>
+		{{else}}
+			{{#if reviewing_verse}}
+				<button class="btn navbar-btn btn-warning" id="edit_verse" type="button">Edit Verse</button>
+				<button class="btn navbar-btn btn-primary navbar-right" id="hide_verse" type="button">Hide Verse</button>
+			{{else}}
+				{{#if editing_verse}}
+					<button class="btn navbar-btn btn-success navbar-right" id="save_verse" type="button">Save Verse</button>
+				{{/if}}
+			{{/if}}
+		{{/if}}
+	</nav>
+</template>

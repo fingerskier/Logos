@@ -1,4 +1,5 @@
 Session.set("verse_text", "");
+Session.set('verse_mode', '');
 
 Meteor.startup(function() {
 	$(document).ready(function() {
