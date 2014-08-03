@@ -9,27 +9,38 @@ Meteor.startup(function() {
 });
 
 Template.verse.events({
-	"click #show_verse": function() {
-		var the_verse = verses.findOne({
-			book: Session.get("current_book"),
-			chapter: Session.get("current_chapter"),
-      verse: Session.get("current_verse")
-		});
-		
-		if (the_verse) {
-	  	Session.set("verse_id", the_verse._id);
-	  	Session.set("verse_text", the_verse.text);	  	
-	  	Session.set("verse_mode", "review");
-		} else {
-	  	Session.set("verse_id", "");
-	  	Session.set("verse_text", "");
-			Session.set("verse_mode", "edit");
-		}
-  },
 	"click #edit_verse": function() {
 		Session.set("verse_mode", "edit");
 		Meteor.flush();
 		$("#verse_editor").focus();
+	},
+	"click #get_verse_text": function() {
+		var URL = 'https://getbible.net/json?text='
+		var ref = Session.get('current_book') + ' ' + Session.get('current_chapter') + ':' + Session.get('current_verse');
+		
+		jQuery.ajax({
+	    url:'http://getbible.net/json',
+	    dataType: 'jsonp',
+	    data: 'p=' + ref + '&v=kjv',
+	    jsonp: 'getbible',
+	    success:function(json){
+	    	var output = 'N/A';
+
+console.log(json.book[0].chapter);
+        if (json.type == 'verse') {
+        	jQuery.each(json.book, function(index, value) {
+            jQuery.each(value.chapter, function(index, value) {
+              output += value.verse;
+            });
+        	});
+
+          jQuery('#verse_editor').html(output);
+        } 
+	    },
+	    error:function(){
+        jQuery('#verse_editor').html('verse-text not found');
+    	},
+		});
 	},
 	"click #hide_verse": function() {
 		Session.set("verse_mode", "test");
@@ -57,7 +68,24 @@ Template.verse.events({
 		}
 		Session.set("verse_mode", "test");
 		$("#book_list").focus();
-	}
+	},
+	"click #show_verse": function() {
+		var the_verse = verses.findOne({
+			book: Session.get("current_book"),
+			chapter: Session.get("current_chapter"),
+      verse: Session.get("current_verse")
+		});
+		
+		if (the_verse) {
+	  	Session.set("verse_id", the_verse._id);
+	  	Session.set("verse_text", the_verse.text);	  	
+	  	Session.set("verse_mode", "review");
+		} else {
+	  	Session.set("verse_id", "");
+	  	Session.set("verse_text", "");
+			Session.set("verse_mode", "edit");
+		}
+  },
 });
 
 Template.verse.helpers({
