@@ -4,13 +4,12 @@
 			<div class="alert alert-success col-xs-12">testing...</div>
 		{{else}}
 			{{#if reviewing_verse}}
-				<div class="alert alert-info col-xs-12">{{verse_text}}</div>
+				<div class="alert alert-info col-xs-12" id="verse_reviewer">{{verse_text}}</div>
 			{{else}}
 				{{#if editing_verse}}
 					<form class="col-xs-12">
 						<textarea class="form-control" id="verse_editor" rows="3">{{verse_text}}</textarea>
 					</form>
-					<button id="get_verse_text"><i>get text</i></button>
 				{{/if}}
 			{{/if}}
 		{{/if}}
@@ -22,6 +21,8 @@
 		{{else}}
 			{{#if reviewing_verse}}
 				<button class="btn btn-warning" id="edit_verse" type="button">Edit Verse</button>
+				<button class="btn" id="popLeft_verse" type="button">Pop Left</button>
+				<button class="btn" id="popRight_verse" type="button">Pop Right</button>
 				<button class="btn btn-primary" id="hide_verse" type="button">Hide Verse</button>
 			{{else}}
 				{{#if editing_verse}}

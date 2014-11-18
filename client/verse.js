@@ -9,84 +9,97 @@ Meteor.startup(function() {
 });
 
 Template.verse.events({
-	"click #edit_verse": function() {
-		Session.set("verse_mode", "edit");
-		Meteor.flush();
-		$("#verse_editor").focus();
-	},
-	"click #get_verse_text": function() {
-		var URL = 'https://getbible.net/json?text='
-		var ref = Session.get('current_book') + ' ' + Session.get('current_chapter') + ':' + Session.get('current_verse');
-		
-		jQuery.ajax({
-	    url:'http://getbible.net/json',
-	    dataType: 'jsonp',
-	    data: 'p=' + ref + '&v=kjv',
-	    jsonp: 'getbible',
-	    success:function(json){
-	    	var output = 'N/A';
+	"click #edit_verse": edit_verse,
+	"click #hide_verse": hide_verse,
+	"click #save_verse": save_verse,
+	"click #show_verse": show_verse,
+	"click #popLeft_verse": shrink_verse_left,
+	"click #popRight_verse": shrink_verse_right
+});
 
-console.log(json.book[0].chapter);
-        if (json.type == 'verse') {
-        	jQuery.each(json.book, function(index, value) {
-            jQuery.each(value.chapter, function(index, value) {
-              output += value.verse;
-            });
-        	});
-
-          jQuery('#verse_editor').html(output);
-        } 
-	    },
-	    error:function(){
-        jQuery('#verse_editor').html('verse-text not found');
-    	},
+/* TEMPLATE EVENT HANDLERS */
+function edit_verse() {
+	Session.set("verse_mode", "edit");
+	Session.set("verse_text", Session.get("orig_text"));
+	Meteor.flush();
+	$("#verse_editor").focus();
+};
+function hide_verse() {
+	Session.set("verse_mode", "test");
+	$("#book_list").focus();
+};
+function save_verse() {
+	var the_id = Session.get("verse_id");
+	Session.set("verse_text", $("#verse_editor").val());
+	
+	if (the_id) {
+		verses.update(the_id, {
+			$set: {text: Session.get("verse_text")}
 		});
-	},
-	"click #hide_verse": function() {
-		Session.set("verse_mode", "test");
-		$("#book_list").focus();
-	},
-	"click #save_verse": function() {
-		var the_id = Session.get("verse_id");
-		Session.set("verse_text", $("#verse_editor").val());
-		
-		if (the_id) {
-			verses.update(the_id, {
-				$set: {text: Session.get("verse_text")}
-			});
-		} else {
-			var new_rec = {
-				book: Session.get("current_book"),
-				chapter: Session.get("current_chapter"),
-				verse: Session.get("current_verse"),
-				text: Session.get("verse_text"),
-				owner: Meteor.userId()
-			};
-			
-			the_id = verses.insert(new_rec);
-			Session.set("verse_id", the_id);
-		}
-		Session.set("verse_mode", "test");
-		$("#book_list").focus();
-	},
-	"click #show_verse": function() {
-		var the_verse = verses.findOne({
+	} else {
+		var new_rec = {
 			book: Session.get("current_book"),
 			chapter: Session.get("current_chapter"),
-      verse: Session.get("current_verse")
-		});
+			owner: Meteor.userId(),
+			text: Session.get("verse_text"),
+			verse: Session.get("current_verse")
+		};
 		
-		if (the_verse) {
-	  	Session.set("verse_id", the_verse._id);
-	  	Session.set("verse_text", the_verse.text);	  	
-	  	Session.set("verse_mode", "review");
-		} else {
-	  	Session.set("verse_id", "");
-	  	Session.set("verse_text", "");
-			Session.set("verse_mode", "edit");
-		}
-  },
-});
+		the_id = verses.insert(new_rec);
+		Session.set("verse_id", the_id);
+	}
+	Session.set("verse_mode", "test");
+	$("#book_list").focus();
+};
+function show_verse() {
+	var the_verse = verses.findOne({
+		book: Session.get("current_book"),
+		chapter: Session.get("current_chapter"),
+    verse: Session.get("current_verse")
+	});
+	
+	if (the_verse) {
+		Session.set("popRight_pos", the_verse.text.split(' ').length);
+		Session.set("popLeft_pos", 0);
+  	Session.set("verse_id", the_verse._id);
+  	Session.set("verse_text", the_verse.text);	
+  	Session.set("orig_text", the_verse.text);	
+  	Session.set("verse_mode", "review");
+	} else {
+		Session.set("popRight_pos", 0);
+		Session.set("popLeft_pos", 0);
+  	Session.set("verse_id", "");
+  	Session.set("verse_text", "");
+  	Session.set("orig_text", "");
+		Session.set("verse_mode", "edit");
+	}
+};
+function shrink_verse_left() {
+	var len = Session.get("popLeft_pos");
+	var temp = Session.get("verse_text");
+
+	if (len >= Session.get("popRight_pos")) return;
+	temp = temp.split(' ');
+	temp[len] = '*';
+	temp = temp.join(' ');
+	len += 1;
+
+	Session.set('verse_text', temp);
+	Session.set('popLeft_pos', len);
+};
+function shrink_verse_right() {
+	var len = Session.get("popRight_pos");
+	var temp = Session.get("verse_text");
+
+	len -= 1;
+	if (len < 0) return;
+	temp = temp.split(' ');
+	temp[len] = '*';
+	temp = temp.join(' ');
+
+	Session.set('verse_text', temp);
+	Session.set('popRight_pos', len);
+};
 
 Template.verse.helpers({
 	book_name: function() {
