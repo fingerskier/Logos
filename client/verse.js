@@ -14,7 +14,8 @@ Template.verse.events({
 	"click #save_verse": save_verse,
 	"click #show_verse": show_verse,
 	"click #popLeft_verse": shrink_verse_left,
-	"click #popRight_verse": shrink_verse_right
+	"click #popRight_verse": shrink_verse_right,
+	"click #random_verse": get_random_verse
 });
 
 /* TEMPLATE EVENT HANDLERS */
@@ -23,6 +24,11 @@ function edit_verse() {
 	Session.set("verse_text", Session.get("orig_text"));
 	Meteor.flush();
 	$("#verse_editor").focus();
+};
+function get_random_verse() {
+	var N = Math.floor(Math.random()*20-10);
+	var the_verse = verses.find().limit(-1).skip(N);
+	Session.set("verse_mode", "test");
 };
 function hide_verse() {
 	Session.set("verse_mode", "test");

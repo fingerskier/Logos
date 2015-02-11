@@ -1,34 +1,24 @@
 <head>
   <title>anamnesis.me</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- logos.meteor.com -->
-<!-- 	<ins class="adsbygoogle"
-     style="display:inline-block;width:728px;height:90px"
-     data-ad-client="ca-pub-7293342172354949"
-     data-ad-slot="3506948065"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
- --></head>
+</head>
 
 <body>
-	{{> home}}
 </body>
 
-<template name="home">
+<template name="_home">
 	<div class="container-fluid">
 		<div class="row">
 			<h1>
-				<a href="#" id="def_toggle">anamnesis.me</a>
+				<a href="#">anamnesis.me</a>
 			</h1>
 
 			<div class="alert alert-success" id="definition">reminiscence and/or memorial sacrifice; a recollection of higher things;</div>
 		</div>
 
 		<div class="row">
-				<p class="pull-left">A free web-app to memorize and recollect Bible verses.</p>
-				<p class="pull-right">{{> loginButtons align="right"}}</p>
+				<p class="pull-left">Bible integration facilitator</p>
+				<p class="pull-right">{{> loginButtons}}</p>
 		</div>
 
 		{{#if currentUser}}

@@ -1,4 +1,4 @@
-/*
+/* verse_mode enum
 	test == verse not shown, reciting from memory
 	review == show verse text
 	edit == edit verse text in a textarea
